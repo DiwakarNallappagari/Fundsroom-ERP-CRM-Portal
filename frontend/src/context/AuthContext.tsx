@@ -34,7 +34,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
 
       try {
-        const res = await fetch('/api/auth/me', {
+        const apiBaseUrl = import.meta.env.VITE_API_URL || '';
+        const res = await fetch(`${apiBaseUrl}/api/auth/me`, {
           headers: {
             Authorization: `Bearer ${storedToken}`,
           },
@@ -75,6 +76,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // Helper function to make authenticated requests
   const fetchWithAuth = async (url: string, options: RequestInit = {}): Promise<Response> => {
     const activeToken = token || localStorage.getItem('token');
+    const apiBaseUrl = import.meta.env.VITE_API_URL || '';
     
     const headers = {
       ...options.headers,
@@ -87,7 +89,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       headers,
     };
 
-    const response = await fetch(url, config);
+    const response = await fetch(`${apiBaseUrl}${url}`, config);
     if (response.status === 401) {
       logout();
     }
