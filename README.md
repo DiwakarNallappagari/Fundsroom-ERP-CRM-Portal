@@ -45,28 +45,26 @@ The application is built using a monorepo structure with a decoupled client-serv
                                                                 |
                                                            (Prisma ORM)
                                                                 v
-                                                       [SQLite Database File]
+                                                      [PostgreSQL Database]
 ```
 
 ### Server Setup (Backend)
-1. **Framework**: Node.js with **Express.js** and **TypeScript** (using `tsx` for live-reload development and `tsc` for production transpilation).
-2. **CORS & Parsers**: Wired with cross-origin resource sharing middleware and standard JSON body parsers.
-3. **Database Layer**: **Prisma ORM** interacting with a local **SQLite** file database (`dev.db`). Under production docker builds, this provider is easily toggled back to standard PostgreSQL.
-4. **Validation & Errors**: Centralized custom error middleware mapping database violations and schema validations verified via **Zod schemas** before database commits.
-5. **Session Management**: Auth tokens are generated using JSON Web Tokens (JWT) with hashed passwords stored via **Bcryptjs**.
+1. **Framework**: Node.js with **Express.js** and **TypeScript** (using `tsx` for dev run and `tsc` for production builds).
+2. **CORS & Parsers**: Configured with standard security CORS parameters and body-parser middleware.
+3. **Database Layer**: **Prisma ORM** integrated with a **PostgreSQL** database (default production & docker targets).
+4. **Validation & Errors**: Centralized custom Express error middleware capturing database constraints and **Zod schema request validation errors** automatically.
+5. **Session Management**: JWT session management with hashed credentials using **Bcryptjs**.
 
 ---
 
 ## 🔒 Environment Variables Management
 
-For security compliance, all `.env` files are added to the root `.gitignore` file so they are **hidden and never pushed to GitHub**. 
+All private configurations are kept in `.env` files which are ignored in `.gitignore` and **never pushed to GitHub**. 
 
-A template file is provided at `backend/.env.example` to let developers configure their environment.
-
-To set up the server environment locally, create a `backend/.env` file with these values:
+To set up the server environment locally, create a `backend/.env` file:
 ```ini
 PORT=4000
-DATABASE_URL="file:./dev.db" # Local SQLite DB file
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/erp_crm_db?schema=public"
 JWT_SECRET=super_secret_erp_crm_jwt_key_12345
 NODE_ENV=development
 ```
@@ -75,33 +73,60 @@ NODE_ENV=development
 
 ## 🚀 Running the Project Locally
 
-Since Docker is not installed on all evaluation machines, the local project is configured to run using a zero-dependency local SQLite database.
+The project can be run locally using either **Docker Compose (PostgreSQL)** or using a **zero-dependency SQLite fallback**.
 
-### 1. Database Setup & Seeding
-In your terminal, navigate to the `backend/` folder and run:
-```bash
-cd backend
-npm install
-npx prisma generate
-npx prisma db push
-npm run prisma:seed
-```
-*This command generates the Prisma client types, creates the local SQLite database file (`dev.db`), creates all relational tables, and seeds the test user roles, initial stock, and customers.*
+### Option A: Local Run with Docker (PostgreSQL)
 
-### 2. Start the Backend API Server
-```bash
-npm run dev
-```
-The API server will launch at `http://localhost:4000/`.
+This compiles both the frontend and backend, provisions a local PostgreSQL database container, pushes the tables, and seeds the default login credentials automatically.
 
-### 3. Start the Frontend React Client
-In a new terminal window, navigate to the `frontend/` folder:
-```bash
-cd frontend
-npm install
-npm run dev
-```
-The Vite development server will launch at `http://localhost:5173/`. Vite is configured with a reverse proxy to route `/api/*` calls automatically to the backend on port 4000.
+1. Open your terminal in the root directory and run:
+   ```bash
+   docker-compose up --build
+   ```
+2. Once running, open:
+   - **Frontend UI Portal**: `http://localhost`
+   - **Backend API Endpoints**: `http://localhost/api` (proxied)
+
+### Option B: Local Run without Docker (SQLite Fallback)
+
+If you do not have Docker or a local PostgreSQL instance running, you can run the project standalone on your host machine using SQLite:
+
+1. **Toggle Prisma Schema to SQLite**:
+   Open `backend/prisma/schema.prisma` and change the datasource provider:
+   ```prisma
+   datasource db {
+     provider = "sqlite"
+     url      = env("DATABASE_URL")
+   }
+   ```
+2. **Change Database URL in `.env`**:
+   Open `backend/.env` and update the connection URL:
+   ```ini
+   DATABASE_URL="file:./dev.db"
+   ```
+3. **Install Dependencies & Seed Database**:
+   Navigate to the `backend/` folder and run:
+   ```bash
+   cd backend
+   npm install
+   npx prisma generate
+   npx prisma db push
+   npm run prisma:seed
+   ```
+   *This initializes the local database file `dev.db`, sets up tables, and inserts the dummy data.*
+4. **Start the API Server**:
+   ```bash
+   npm run dev
+   ```
+5. **Start the React Client**:
+   Open a new terminal tab, navigate to the `frontend/` folder:
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+   Open `http://localhost:5173/` in your browser.
+
 
 ---
 
