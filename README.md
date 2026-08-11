@@ -4,9 +4,15 @@ A full-stack ERP & CRM Operations Portal built for a wholesale/distribution comp
 
 
 ## 🌐 Live Demo
+
+### Frontend
 https://fundsroom-erp-crm-portal.vercel.app
 
- 
+### Backend API
+https://fundsroom-erp-crm-portal.onrender.com
+
+### API Health
+https://fundsroom-erp-crm-portal.onrender.com/health
 ---
 
 ## 📸 Screenshots
