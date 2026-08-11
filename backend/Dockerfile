@@ -18,5 +18,4 @@ RUN npm run build
 
 EXPOSE 4000
 
-# Start server (we use a shell script or command to push schema changes and start)
-CMD npx prisma db push && npm run prisma:seed && node dist/index.js
+CMD npx prisma migrate deploy && npm run prisma:seed && node dist/index.js

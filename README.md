@@ -141,7 +141,7 @@ If you do not have Docker or a local PostgreSQL instance running, you can run th
 2. Configure these parameters:
    - **Root Directory**: `backend`
    - **Build Command**: `npm install && npx prisma generate && npm run build`
-   - **Start Command**: `npx prisma db push && npm run prisma:seed && node dist/index.js`
+   - **Start Command**: `npx prisma migrate deploy && npm run prisma:seed && node dist/index.js`
 3. Add the following **Environment Variables**:
    - `DATABASE_URL` = *(Your live PostgreSQL connection string)*
    - `JWT_SECRET` = *(Your secret token)*
