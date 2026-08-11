@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fundsroom ERP + CRM Project Documentation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --text-main: #1f2937;
+      --text-muted: #4b5563;
+      --bg-main: #ffffff;
+      --bg-alt: #f9fafb;
+      --border: #e5e7eb;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-main);
+      background-color: var(--bg-main);
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    header {
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 40px;
+    }
+
+    .title {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin: 10px 0 0 0;
+      font-weight: 400;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--primary-dark);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-top: 25px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    ul, ol {
+      margin-top: 0;
+      margin-bottom: 20px;
+      padding-left: 20px;
+    }
+
+    li {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+      margin-top: 15px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    th {
+      background-color: var(--bg-alt);
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    code {
+      font-family: Consolas, Monaco, 'Andale Mono', monospace;
+      background-color: var(--bg-alt);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+    }
+
+    pre {
+      background-color: #1e293b;
+      color: #f8fafc;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 25px;
+    }
+
+    pre code {
+      background-color: transparent;
+      color: inherit;
+      border: none;
+      padding: 0;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 9999px;
+      text-transform: uppercase;
+    }
+
+    .badge-admin { background-color: #fee2e2; color: #991b1b; }
+    .badge-sales { background-color: #fef3c7; color: #92400e; }
+    .badge-warehouse { background-color: #dcfce7; color: #166534; }
+    .badge-accounts { background-color: #e0f2fe; color: #075985; }
+
+    .highlight-box {
+      background-color: var(--bg-alt);
+      border-left: 4px solid var(--primary);
+      padding: 15px;
+      margin-bottom: 25px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .highlight-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    @media print {
+      body {
+        font-size: 12px;
+        background-color: #fff;
+      }
+      .container {
+        max-width: 100%;
+        padding: 0;
+      }
+      pre {
+        background-color: #f3f4f6;
+        color: #1f2937;
+        border: 1px solid var(--border);
+        page-break-inside: avoid;
+      }
+      h2, h3 {
+        page-break-after: avoid;
+      }
+      tr {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1 class="title">Fundsroom ERP + CRM Operations Portal</h1>
+      <p class="subtitle">Full-Stack Implementation Case Study & Project Documentation</p>
+    </header>
+
+    <h2>1. Project Overview & Business Value</h2>
+    <p>This project is a custom-engineered, full-stack **ERP (Enterprise Resource Planning)** and **CRM (Customer Relationship Management)** system designed for wholesale and distribution operations. It addresses the workflow complexities of managing corporate partnerships, tracking inventory movements, validating stock transactions, and creating billing challans.</p>
+    <p>The system integrates secure role-based authorization across four distinct operational roles (Admin, Sales, Warehouse, and Accounts), ensuring data privacy and correct separation of concerns.</p>
+
+    <h2>2. System Architecture</h2>
+    <p>The application is built on a modern, decoupled client-server architecture using a single monorepo repository structure:</p>
+    
+    <pre><code>[React Frontend SPA (Vite)] 
+            │
+            │ HTTPS / JSON REST API (JWT Authenticated)
+            ▼
+[Node.js + Express API Server (TypeScript)]
+            │
+            │ Prisma Client ORM
+            ▼
+[Neon Cloud PostgreSQL Database]</code></pre>
+
+    <ul>
+      <li><strong>Frontend Portal:</strong> React application built with TypeScript, served as a Single Page Application (SPA), utilizing custom CSS grids and glassmorphism design variables.</li>
+      <li><strong>Backend API:</strong> Node.js Express server written in strict TypeScript. Request bodies are validated using Zod schemas before hitting database layers.</li>
+      <li><strong>Database:</strong> Deployed on Neon Cloud PostgreSQL, implementing transactional consistency checks for core transactions.</li>
+    </ul>
+
+    <h2>3. Key System Features</h2>
+
+    <h3>🔐 Role-Based Access Control (RBAC)</h3>
+    <p>System access is restricted by operational scope. Authorization checks are executed on the API server via a custom <code>requireRole</code> middleware:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Email Credential</th>
+          <th>Access scope</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-admin">Admin</span></td>
+          <td><code>admin@fundsroom.com</code></td>
+          <td>Full administrative read/write access across all system modules.</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-sales">Sales Agent</span></td>
+          <td><code>sales@fundsroom.com</code></td>
+          <td>CRM management, customer follow-up notes, sales challan creation, view stock.</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-warehouse">Warehouse Operator</span></td>
+          <td><code>warehouse@fundsroom.com</code></td>
+          <td>Registered SKU modifications, manual stock adjustments, logs viewing. CRM blocked.</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-accounts">Accounts Executive</span></td>
+          <td><code>accounts@fundsroom.com</code></td>
+          <td>CRM review, inventory visibility, challan status transitions, PDF invoice export.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>👥 Customer CRM</h3>
+    <p>Enables sales and accounts teams to create business files, filter by customer type (Retailer, Distributor, Wholesaler), and log follow-up notes that compile into a chronological interaction timeline.</p>
+
+    <h3>📦 Inventory & Stock Adjustments</h3>
+    <p>Tracks active stock quantities against minimum stock thresholds. Includes visual alert badges when stock falls below warning levels, storage location listings, and automated stock movement audit log history tracking.</p>
+
+    <h3>🧾 Transactional Sales Challans</h3>
+    <p>Implements multi-item challan creation with two core workflow steps:
+      <ol>
+        <li><strong>Draft state:</strong> Serves as a quotation and does not reserve or deduct inventory.</li>
+        <li><strong>Confirmed state:</strong> Triggers an atomic PostgreSQL database transaction that validates stock availability, deducts quantities, and records logs. If a challan is cancelled, the transaction restores the allocated stock.</li>
+      </ol>
+    </p>
+
+    <h2>4. API Endpoint Documentation</h2>
+    <p>All endpoints (except login) require the JWT header: <code>Authorization: Bearer &lt;token&gt;</code>.</p>
+
+    <h3>🔐 Authentication Endpoints</h3>
+    <ul>
+      <li><code>POST /api/auth/login</code> — Authenticates credentials and returns JWT session token.</li>
+      <li><code>GET /api/auth/me</code> — Retrieves current user role and session details.</li>
+    </ul>
+
+    <h3>👥 CRM Customer Endpoints</h3>
+    <ul>
+      <li><code>GET /api/customers</code> — Lists business profiles with search and type filters.</li>
+      <li><code>POST /api/customers</code> — Registers new customer client cards.</li>
+      <li><code>GET /api/customers/:id</code> — Retrieves detailed client profile and notes logs.</li>
+      <li><code>POST /api/customers/:id/notes</code> — appends follow-up note to customer timeline.</li>
+    </ul>
+
+    <h3>📦 Product Inventory Endpoints</h3>
+    <ul>
+      <li><code>GET /api/products</code> — Lists registered product catalog with stock counts.</li>
+      <li><code>POST /api/products</code> — Registers new catalog SKU (Warehouse only).</li>
+      <li><code>POST /api/products/:id/stock</code> — Logs custom stock adjustment logs.</li>
+      <li><code>GET /api/products/:id/movements</code> — Returns audit logs for a specific SKU.</li>
+    </ul>
+
+    <h3>🧾 Sales Challan Endpoints</h3>
+    <ul>
+      <li><code>GET /api/challans</code> — Lists sales challan billing history.</li>
+      <li><code>POST /api/challans</code> — Generates new billing challan (starts in Draft).</li>
+      <li><code>PUT /api/challans/:id/status</code> — Transition status (DRAFT ➔ CONFIRMED ➔ CANCELLED).</li>
+    </ul>
+
+    <h2>5. Core Design Decisions</h2>
+    <div class="highlight-box">
+      <strong>Item Pricing Snapshots:</strong>
+      <p>Product prices often change. To maintain historical audit durability, product variables (name, SKU, unit price) are permanently copied into <code>SalesChallanItem</code> when a challan is created. Subsequent changes to the product catalog do not retroactively alter previously confirmed receipts.</p>
+    </div>
+
+    <h2>6. Live Deployments</h2>
+    <ul>
+      <li><strong>Frontend Portal (Vercel):</strong> <a href="https://fundsroom-erp-crm-portal.vercel.app" target="_blank">https://fundsroom-erp-crm-portal.vercel.app</a></li>
+      <li><strong>Backend REST API (Render):</strong> <a href="https://fundsroom-erp-crm-portal.onrender.com" target="_blank">https://fundsroom-erp-crm-portal.onrender.com</a></li>
+      <li><strong>API Health Check:</strong> <a href="https://fundsroom-erp-crm-portal.onrender.com/health" target="_blank">https://fundsroom-erp-crm-portal.onrender.com/health</a></li>
+    </ul>
+
+  </div>
+
+</body>
+</html>
