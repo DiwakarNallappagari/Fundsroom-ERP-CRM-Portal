@@ -23,6 +23,13 @@ app.use('/api/customers', customerRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/challans', challanRoutes);
 
+app.get("/", (_req: Request, res: Response) => {
+  res.json({
+    message: "Fundsroom ERP CRM API is running",
+    status: "OK"
+  });
+});
+
 // Health check endpoint
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({
@@ -36,9 +43,9 @@ app.get('/health', (req: Request, res: Response) => {
 app.use(errorHandler);
 
 // Start Server
-app.listen(PORT, () => {
+app.listen(Number(PORT), "0.0.0.0", () => {
   console.log(`===============================================`);
-  console.log(` ERP + CRM backend server running on port ${PORT}`);
+  console.log(` Server running on port ${PORT} (host: 0.0.0.0)`);
   console.log(` Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`===============================================`);
 });
