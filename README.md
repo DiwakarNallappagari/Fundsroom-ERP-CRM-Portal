@@ -154,7 +154,7 @@ If you do not have Docker or a local PostgreSQL instance running, you can run th
 1. Link your GitHub repository to a new Web Service on [Render](https://render.com/).
 2. Configure these parameters:
    - **Root Directory**: `backend`
-   - **Build Command**: `npm install && npx prisma generate && npm run build`
+   - **Build Command**: `npm install --production=false && npx prisma generate && npm run build`
    - **Start Command**: `npm start`
 3. Add the following **Environment Variables**:
    - `DATABASE_URL` = *(Your live PostgreSQL connection string)*
