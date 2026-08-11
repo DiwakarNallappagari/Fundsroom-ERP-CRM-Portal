@@ -2,23 +2,33 @@
 
 A full-stack ERP & CRM Operations Portal built for a wholesale/distribution company. This system orchestrates role-based authentication, Customer CRM follow-ups, product inventory tracking, and Sales Challan generation with strict transactional stock checks.
 
+
+## 🌐 Live Demo
+
+### Frontend
+https://YOUR-VERCEL-URL.vercel.app
+
+### Backend API
+https://YOUR-RENDER-URL.onrender.com
+
+### API Health
+https://YOUR-RENDER-URL.onrender.com/health
+
 ---
 
 ## 📸 Screenshots
 
-*Note: Please take screenshots of your local running instance at `http://localhost:5173/` and save them inside the `screenshots/` directory as `dashboard.png`, `crm.png`, and `challan.png` to have them render here.*
+### Operations Dashboard
+![Dashboard](screenshots/dashboard.png)
 
-### 1. Operations Dashboard
-![Dashboard Screenshot](screenshots/dashboard.png)
+### Customer CRM
+![CRM](screenshots/crm.png)
 
-### 2. Customer CRM Detail Timeline
-![CRM Screenshot](screenshots/crm.png)
+### Product Inventory
+![Inventory](screenshots/inventory.png)
 
-### 3. Sales Challan Builder
-![Sales Challan Screenshot](screenshots/challan.png)
-
-### 4. Product Inventory & Stock Alerts
-![Inventory Screenshot](screenshots/inventory.png)
+### Sales Challan
+![Challan](screenshots/challan.png)
 
 ---
 
@@ -41,11 +51,15 @@ The Login page includes **Quick Demo Login buttons** at the bottom for instant f
 The application is built using a monorepo structure with a decoupled client-server architecture:
 
 ```
-[React SPA Client (Port 5173)] <--- HTTP REST API ---> [Express.js API Server (Port 4000)]
-                                                                |
-                                                           (Prisma ORM)
-                                                                v
-                                                      [PostgreSQL Database]
+[React SPA]
+      │
+      │ HTTPS / REST API
+      ▼
+[Express + TypeScript]
+      │
+      │ Prisma ORM
+      ▼
+[PostgreSQL]
 ```
 
 ### Server Setup (Backend)
@@ -63,10 +77,10 @@ All private configurations are kept in `.env` files which are ignored in `.gitig
 
 To set up the server environment locally, create a `backend/.env` file:
 ```ini
-PORT=4000
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/erp_crm_db?schema=public"
-JWT_SECRET=super_secret_erp_crm_jwt_key_12345
+DATABASE_URL="postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require"
+JWT_SECRET="your-secure-secret"
 NODE_ENV=development
+PORT=4000
 ```
 
 ---
@@ -141,7 +155,7 @@ If you do not have Docker or a local PostgreSQL instance running, you can run th
 2. Configure these parameters:
    - **Root Directory**: `backend`
    - **Build Command**: `npm install && npx prisma generate && npm run build`
-   - **Start Command**: `npx prisma migrate deploy && npm run prisma:seed && node dist/index.js`
+   - **Start Command**: `npm start`
 3. Add the following **Environment Variables**:
    - `DATABASE_URL` = *(Your live PostgreSQL connection string)*
    - `JWT_SECRET` = *(Your secret token)*
@@ -164,7 +178,7 @@ If you do not have Docker or a local PostgreSQL instance running, you can run th
 
 ## ⚠️ Known Limitations or Incomplete Parts
 
-1. **S3 File Upload**: The prompt outlines uploading product pictures to AWS S3. Under local sandbox running conditions, we stubbed image paths using icons to bypass AWS credential setup costs.
+1. **S3 File Upload**: AWS S3 product-image upload is an optional bonus feature and was not implemented because it was outside the core assignment scope.
 2. **Admin User Registrations**: Admins can view metrics, but creating new users/changing roles requires running direct SQL operations or modifying the seed script; a user-creation UI form is out of scope for this MVP.
 3. **Session Revocation**: JWT sessions are client-side stateless. Revoking a token early requires introducing a Redis blacklist database, which is omitted to keep the project lightweight.
 
